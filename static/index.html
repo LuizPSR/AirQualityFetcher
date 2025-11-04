@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality City Search (Brazil)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba: (0,0,0,0.1);
+            margin-bottom: 20px; /* Space before widget */
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .suggestions-box {
+            border: 1px solid #eee;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background: #fff;
+        }
+        .suggestion-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #e9e9e9;
+        }
+        .suggestion-item strong {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🇧🇷 Brazil City Search (Autocomplete)</h1>
+    <p>Start typing a city name in Brazil (min 3 characters) to see suggestions:</p>
+    <input type="text" id="cityInput" placeholder="Enter City Name (e.g., Rio)">
+    <ul id="suggestionsList" class="suggestions-box">
+    </ul>
+
+    <div id="cityDataOutput" style="margin-top: 20px;">
+        <p>Select a city above to load its air quality widget below.</p>
+    </div>
+</div>
+
+<div class="container" style="text-align: center;">
+    <h2>Live Air Quality Data</h2>
+    <div id="airvisual_widget_container" style="min-height: 300px; border: 1px solid #ddd; padding: 10px;">
+        <div name="airvisual_widget" key="6908d897d4826e90e5441947"></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://widget.iqair.com/script/widget_v3.0.js"></script>
+
+<script>
+    const cityInput = document.getElementById('cityInput');
+    const suggestionsList = document.getElementById('suggestionsList');
+    const cityDataOutput = document.getElementById('cityDataOutput');
+    const WIDGET_KEY = "6908d897d4826e90e5441947";
+    let autocompleteTimeout;
+
+    // Function to fetch and display autocomplete suggestions
+    const fetchSuggestions = async (query) => {
+        if (query.length < 3) {
+            suggestionsList.innerHTML = '';
+            return;
+        }
+
+        try {
+            // Calls the Flask endpoint /api/autocomplete
+            const response = await fetch(`/api/autocomplete?query=${encodeURIComponent(query)}`);
+            const data = await response.json();
+
+            suggestionsList.innerHTML = '';
+
+            if (data.suggestions && data.suggestions.length > 0) {
+                data.suggestions.forEach(city => {
+                    const li = document.createElement('li');
+                    li.className = 'suggestion-item';
+                    li.innerHTML = `<strong>${city.city}</strong>, ${city.state}, ${city.country}`;
+
+                    li.addEventListener('click', () => selectCity(city));
+                    suggestionsList.appendChild(li);
+                });
+            } else {
+                suggestionsList.innerHTML = '<li class="suggestion-item" style="cursor: default;">No matches found.</li>';
+            }
+
+        } catch (error) {
+            console.error('Error fetching autocomplete data:', error);
+            suggestionsList.innerHTML = '<li class="suggestion-item" style="color: red; cursor: default;">Error fetching data.</li>';
+        }
+    };
+
+    // Event listener for input changes (with debounce)
+    cityInput.addEventListener('input', (e) => {
+        clearTimeout(autocompleteTimeout);
+        autocompleteTimeout = setTimeout(() => {
+            fetchSuggestions(e.target.value);
+        }, 300); // Wait 300ms after user stops typing
+    });
+
+    // ⭐ NEW POLLING LOGIC ⭐
+    const selectCity = (city) => {
+        cityInput.value = `${city.city}, ${city.state}`;
+        suggestionsList.innerHTML = ''; // Clear suggestions
+
+        cityDataOutput.innerHTML = `<p>Loading widget for <strong>${city.city}, ${city.state}</strong>...</p>`;
+
+        let retryCount = 0;
+        const maxRetries = 20; // Check every 100ms for 2 seconds (20 retries)
+
+        const checkWidgetReady = () => {
+            // Check if the global function is defined
+            if (window.loadAirVisualWidget) {
+                window.loadAirVisualWidget({
+                    city: city.city,
+                    state: city.state,
+                    country: city.country,
+                    key: WIDGET_KEY
+                });
+                cityDataOutput.innerHTML = `<p>Widget successfully loaded for <strong>${city.city}, ${city.state}</strong>.</p>`;
+            } else if (retryCount < maxRetries) {
+                // Not ready yet, retry after a short delay
+                retryCount++;
+                setTimeout(checkWidgetReady, 100);
+            } else {
+                // Failed after max retries
+                cityDataOutput.innerHTML = `<p style="color: red;">Widget load failed. External script might be blocked or down.</p>`;
+                console.error('Failed to load AirVisual widget function after multiple retries.');
+            }
+        };
+
+        checkWidgetReady();
+    }
+</script>
+</body>
+</html>

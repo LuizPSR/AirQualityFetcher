@@ -1,0 +1,458 @@
+[
+  {
+    "city": "Brasileia",
+    "state": "Acre",
+    "country": "Brazil",
+    "search_string": "brasileia, acre, brazil"
+  },
+  {
+    "city": "Cruzeiro do Sul",
+    "state": "Acre",
+    "country": "Brazil",
+    "search_string": "cruzeiro do sul, acre, brazil"
+  },
+  {
+    "city": "Epitaciolandia",
+    "state": "Acre",
+    "country": "Brazil",
+    "search_string": "epitaciolandia, acre, brazil"
+  },
+  {
+    "city": "Feijo",
+    "state": "Acre",
+    "country": "Brazil",
+    "search_string": "feijo, acre, brazil"
+  },
+  {
+    "city": "Jordão",
+    "state": "Acre",
+    "country": "Brazil",
+    "search_string": "jordão, acre, brazil"
+  },
+  {
+    "city": "Rio Branco",
+    "state": "Acre",
+    "country": "Brazil",
+    "search_string": "rio branco, acre, brazil"
+  },
+  {
+    "city": "Senador Guiomard",
+    "state": "Acre",
+    "country": "Brazil",
+    "search_string": "senador guiomard, acre, brazil"
+  },
+  {
+    "city": "Xapuri",
+    "state": "Acre",
+    "country": "Brazil",
+    "search_string": "xapuri, acre, brazil"
+  },
+  {
+    "city": "Mazagao",
+    "state": "Amapa",
+    "country": "Brazil",
+    "search_string": "mazagao, amapa, brazil"
+  },
+  {
+    "city": "Santana",
+    "state": "Amapa",
+    "country": "Brazil",
+    "search_string": "santana, amapa, brazil"
+  },
+  {
+    "city": "Benjamin Constant",
+    "state": "Amazonas",
+    "country": "Brazil",
+    "search_string": "benjamin constant, amazonas, brazil"
+  },
+  {
+    "city": "Humaita",
+    "state": "Amazonas",
+    "country": "Brazil",
+    "search_string": "humaita, amazonas, brazil"
+  },
+  {
+    "city": "Ipixuna",
+    "state": "Amazonas",
+    "country": "Brazil",
+    "search_string": "ipixuna, amazonas, brazil"
+  },
+  {
+    "city": "Labrea",
+    "state": "Amazonas",
+    "country": "Brazil",
+    "search_string": "labrea, amazonas, brazil"
+  },
+  {
+    "city": "Manaus",
+    "state": "Amazonas",
+    "country": "Brazil",
+    "search_string": "manaus, amazonas, brazil"
+  },
+  {
+    "city": "Santo Antonio do Ica",
+    "state": "Amazonas",
+    "country": "Brazil",
+    "search_string": "santo antonio do ica, amazonas, brazil"
+  },
+  {
+    "city": "Tefe",
+    "state": "Amazonas",
+    "country": "Brazil",
+    "search_string": "tefe, amazonas, brazil"
+  },
+  {
+    "city": "Camacari",
+    "state": "Bahia",
+    "country": "Brazil",
+    "search_string": "camacari, bahia, brazil"
+  },
+  {
+    "city": "Madre de Deus",
+    "state": "Bahia",
+    "country": "Brazil",
+    "search_string": "madre de deus, bahia, brazil"
+  },
+  {
+    "city": "Mata de Sao Joao",
+    "state": "Bahia",
+    "country": "Brazil",
+    "search_string": "mata de sao joao, bahia, brazil"
+  },
+  {
+    "city": "Fortaleza",
+    "state": "Ceara",
+    "country": "Brazil",
+    "search_string": "fortaleza, ceara, brazil"
+  },
+  {
+    "city": "Brasilia",
+    "state": "Federal District",
+    "country": "Brazil",
+    "search_string": "brasilia, federal district, brazil"
+  },
+  {
+    "city": "Imperatriz",
+    "state": "Maranhao",
+    "country": "Brazil",
+    "search_string": "imperatriz, maranhao, brazil"
+  },
+  {
+    "city": "Barao de Melgaco",
+    "state": "Mato Grosso",
+    "country": "Brazil",
+    "search_string": "barao de melgaco, mato grosso, brazil"
+  },
+  {
+    "city": "Cuiaba",
+    "state": "Mato Grosso",
+    "country": "Brazil",
+    "search_string": "cuiaba, mato grosso, brazil"
+  },
+  {
+    "city": "Diamantino",
+    "state": "Mato Grosso",
+    "country": "Brazil",
+    "search_string": "diamantino, mato grosso, brazil"
+  },
+  {
+    "city": "Pocone",
+    "state": "Mato Grosso",
+    "country": "Brazil",
+    "search_string": "pocone, mato grosso, brazil"
+  },
+  {
+    "city": "Querencia",
+    "state": "Mato Grosso",
+    "country": "Brazil",
+    "search_string": "querencia, mato grosso, brazil"
+  },
+  {
+    "city": "Rondonopolis",
+    "state": "Mato Grosso",
+    "country": "Brazil",
+    "search_string": "rondonopolis, mato grosso, brazil"
+  },
+  {
+    "city": "Santo Antonio do Leverger",
+    "state": "Mato Grosso",
+    "country": "Brazil",
+    "search_string": "santo antonio do leverger, mato grosso, brazil"
+  },
+  {
+    "city": "Sinop",
+    "state": "Mato Grosso",
+    "country": "Brazil",
+    "search_string": "sinop, mato grosso, brazil"
+  },
+  {
+    "city": "Varzea Grande",
+    "state": "Mato Grosso",
+    "country": "Brazil",
+    "search_string": "varzea grande, mato grosso, brazil"
+  },
+  {
+    "city": "Altamira",
+    "state": "Para",
+    "country": "Brazil",
+    "search_string": "altamira, para, brazil"
+  },
+  {
+    "city": "Belem",
+    "state": "Para",
+    "country": "Brazil",
+    "search_string": "belem, para, brazil"
+  },
+  {
+    "city": "Braganca",
+    "state": "Para",
+    "country": "Brazil",
+    "search_string": "braganca, para, brazil"
+  },
+  {
+    "city": "Medicilandia",
+    "state": "Para",
+    "country": "Brazil",
+    "search_string": "medicilandia, para, brazil"
+  },
+  {
+    "city": "Paragominas",
+    "state": "Para",
+    "country": "Brazil",
+    "search_string": "paragominas, para, brazil"
+  },
+  {
+    "city": "Santarem",
+    "state": "Para",
+    "country": "Brazil",
+    "search_string": "santarem, para, brazil"
+  },
+  {
+    "city": "Pianco",
+    "state": "Paraiba",
+    "country": "Brazil",
+    "search_string": "pianco, paraiba, brazil"
+  },
+  {
+    "city": "Colombo",
+    "state": "Parana",
+    "country": "Brazil",
+    "search_string": "colombo, parana, brazil"
+  },
+  {
+    "city": "Curitiba",
+    "state": "Parana",
+    "country": "Brazil",
+    "search_string": "curitiba, parana, brazil"
+  },
+  {
+    "city": "Medianeira",
+    "state": "Parana",
+    "country": "Brazil",
+    "search_string": "medianeira, parana, brazil"
+  },
+  {
+    "city": "Ponta Grossa",
+    "state": "Parana",
+    "country": "Brazil",
+    "search_string": "ponta grossa, parana, brazil"
+  },
+  {
+    "city": "Sao Mateus do Sul",
+    "state": "Parana",
+    "country": "Brazil",
+    "search_string": "sao mateus do sul, parana, brazil"
+  },
+  {
+    "city": "Recife",
+    "state": "Pernambuco",
+    "country": "Brazil",
+    "search_string": "recife, pernambuco, brazil"
+  },
+  {
+    "city": "Caxias do Sul",
+    "state": "Rio Grande do Sul",
+    "country": "Brazil",
+    "search_string": "caxias do sul, rio grande do sul, brazil"
+  },
+  {
+    "city": "Rio de Janeiro",
+    "state": "Rio de Janeiro",
+    "country": "Brazil",
+    "search_string": "rio de janeiro, rio de janeiro, brazil"
+  },
+  {
+    "city": "Porto Velho",
+    "state": "Rondonia",
+    "country": "Brazil",
+    "search_string": "porto velho, rondonia, brazil"
+  },
+  {
+    "city": "Boa Vista",
+    "state": "Roraima",
+    "country": "Brazil",
+    "search_string": "boa vista, roraima, brazil"
+  },
+  {
+    "city": "Braco do Norte",
+    "state": "Santa Catarina",
+    "country": "Brazil",
+    "search_string": "braco do norte, santa catarina, brazil"
+  },
+  {
+    "city": "Corrego Grande",
+    "state": "Santa Catarina",
+    "country": "Brazil",
+    "search_string": "corrego grande, santa catarina, brazil"
+  },
+  {
+    "city": "Videira",
+    "state": "Santa Catarina",
+    "country": "Brazil",
+    "search_string": "videira, santa catarina, brazil"
+  },
+  {
+    "city": "Bauru",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "bauru, sao paulo, brazil"
+  },
+  {
+    "city": "Campinas",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "campinas, sao paulo, brazil"
+  },
+  {
+    "city": "Carapicuiba",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "carapicuiba, sao paulo, brazil"
+  },
+  {
+    "city": "Cerqueira Cesar",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "cerqueira cesar, sao paulo, brazil"
+  },
+  {
+    "city": "Cubatao",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "cubatao, sao paulo, brazil"
+  },
+  {
+    "city": "Guaratingueta",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "guaratingueta, sao paulo, brazil"
+  },
+  {
+    "city": "Guarulhos",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "guarulhos, sao paulo, brazil"
+  },
+  {
+    "city": "Itaquera",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "itaquera, sao paulo, brazil"
+  },
+  {
+    "city": "Jambeiro",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "jambeiro, sao paulo, brazil"
+  },
+  {
+    "city": "Jundiai",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "jundiai, sao paulo, brazil"
+  },
+  {
+    "city": "Maua",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "maua, sao paulo, brazil"
+  },
+  {
+    "city": "Osasco",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "osasco, sao paulo, brazil"
+  },
+  {
+    "city": "Piracicaba",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "piracicaba, sao paulo, brazil"
+  },
+  {
+    "city": "Presidente Prudente",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "presidente prudente, sao paulo, brazil"
+  },
+  {
+    "city": "Ribeirao Preto",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "ribeirao preto, sao paulo, brazil"
+  },
+  {
+    "city": "Rio Claro",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "rio claro, sao paulo, brazil"
+  },
+  {
+    "city": "Santos",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "santos, sao paulo, brazil"
+  },
+  {
+    "city": "Sao Bernardo do Campo",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "sao bernardo do campo, sao paulo, brazil"
+  },
+  {
+    "city": "Sao Jose do Rio Preto",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "sao jose do rio preto, sao paulo, brazil"
+  },
+  {
+    "city": "Sao Jose dos Campos",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "sao jose dos campos, sao paulo, brazil"
+  },
+  {
+    "city": "Sao Paulo",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "sao paulo, sao paulo, brazil"
+  },
+  {
+    "city": "Sao Sebastiao",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "sao sebastiao, sao paulo, brazil"
+  },
+  {
+    "city": "Taboao da Serra",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "taboao da serra, sao paulo, brazil"
+  },
+  {
+    "city": "Taubate",
+    "state": "Sao Paulo",
+    "country": "Brazil",
+    "search_string": "taubate, sao paulo, brazil"
+  }
+]
