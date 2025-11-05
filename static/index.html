@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Air Quality City Search (Brazil)</title>
+    <title>Air Quality City Data (Brazil)</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,28 +11,43 @@
             background-color: #f4f4f4;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: auto;
             background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba: (0,0,0,0.1);
-            margin-bottom: 20px; /* Space before widget */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
         h1 {
             color: #333;
             text-align: center;
         }
+        /* --- Input & Suggestions Layout --- */
+        .input-group-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .input-wrapper {
+            flex-grow: 1;
+            position: relative;
+        }
         input[type="text"] {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            margin: 0;
             box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
         }
         .suggestions-box {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1000;
             border: 1px solid #eee;
             border-top: none;
             max-height: 200px;
@@ -41,6 +56,7 @@
             padding: 0;
             margin: 0;
             background: #fff;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         .suggestion-item {
             padding: 10px;
@@ -53,111 +69,398 @@
         .suggestion-item strong {
             color: #0056b3;
         }
+
+        /* --- Comparison Output Layout --- */
+        .comparison-output {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .city-data-column {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        .conclusion {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e6f7ff;
+            border-radius: 4px;
+        }
+        #widgetContainer {
+            min-height: 350px;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        #singleCityResultOutput {
+            margin-top: 20px;
+            text-align: left;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        .aqi-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px dotted #eee;
+        }
+        .aqi-value {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+
+<div class="container" id="widgetContainer">
+    <h2>🇧🇷 Real Time View (Nearest Station)</h2>
+    <p>This widget automatically displays the real-time air quality from the station nearest to your current location (requires geolocation permission).</p>
+
+    <div name="airvisual_widget" key="690a2f1069689d1b6f18f66a" style="min-height: 300px;"></div>
+</div>
+
+
 <div class="container">
-    <h1>🇧🇷 Brazil City Search (Autocomplete)</h1>
-    <p>Start typing a city name in Brazil (min 3 characters) to see suggestions:</p>
-    <input type="text" id="cityInput" placeholder="Enter City Name (e.g., Rio)">
-    <ul id="suggestionsList" class="suggestions-box">
-    </ul>
+    <h2>🔍 Select Single City</h2>
+    <p>Type a city name to fetch its current, historical, and forecast air quality data.</p>
 
-    <div id="cityDataOutput" style="margin-top: 20px;">
-        <p>Select a city above to load its air quality widget below.</p>
+    <div class="input-wrapper">
+        <input type="text" id="cityInputSingle" data-city-index="single" placeholder="Enter a City Name (e.g., Rio de Janeiro)">
+        <ul id="suggestionsListSingle" class="suggestions-box"></ul>
     </div>
+
+    <button id="showDataButton" style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">Show Single City Data</button>
 </div>
 
-<div class="container" style="text-align: center;">
-    <h2>Live Air Quality Data</h2>
-    <div id="airvisual_widget_container" style="min-height: 300px; border: 1px solid #ddd; padding: 10px;">
-        <div name="airvisual_widget" key="6908d897d4826e90e5441947"></div>
-    </div>
+<div class="container" id="singleCityResultContainer">
+    <h2>Single City Result</h2>
+    <div id="singleCityResultOutput">Select a city and click "Show Single City Data" above.</div>
 </div>
+
+
+<div class="container">
+    <h2>⚖️ City Comparison</h2>
+    <p>Select two cities below, then click "Compare Cities".</p>
+
+    <div class="input-group-container">
+        <div class="input-wrapper">
+            <input type="text" id="cityInput1" data-city-index="1" placeholder="City A">
+            <ul id="suggestionsList1" class="suggestions-box"></ul>
+        </div>
+
+        <div class="input-wrapper">
+            <input type="text" id="cityInput2" data-city-index="2" placeholder="City B">
+            <ul id="suggestionsList2" class="suggestions-box"></ul>
+        </div>
+    </div>
+
+    <button id="compareButton" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Compare Cities</button>
+</div>
+
+<div class="container" id="comparisonContainer" style="display: none;">
+    <h2>Comparison Results</h2>
+    <div id="comparisonOutput" class="comparison-output">
+        <div class="city-data-column" id="cityResult1"></div>
+        <div class="city-data-column" id="cityResult2"></div>
+    </div>
+    <div id="conclusionMessage" class="conclusion"></div>
+</div>
+
 
 <script type="text/javascript" src="https://widget.iqair.com/script/widget_v3.0.js"></script>
 
 <script>
-    const cityInput = document.getElementById('cityInput');
-    const suggestionsList = document.getElementById('suggestionsList');
-    const cityDataOutput = document.getElementById('cityDataOutput');
-    const WIDGET_KEY = "6908d897d4826e90e5441947";
+    // --- Global State and Constants ---
+    const cityInputs = {
+        single: document.getElementById('cityInputSingle'),
+        1: document.getElementById('cityInput1'),
+        2: document.getElementById('cityInput2')
+    };
+    const suggestionLists = {
+        single: document.getElementById('suggestionsListSingle'),
+        1: document.getElementById('suggestionsList1'),
+        2: document.getElementById('suggestionsList2')
+    };
+    const showDataButton = document.getElementById('showDataButton');
+    const compareButton = document.getElementById('compareButton');
+    const singleCityResultOutput = document.getElementById('singleCityResultOutput');
+    const comparisonContainer = document.getElementById('comparisonContainer');
+    const cityResult1 = document.getElementById('cityResult1');
+    const cityResult2 = document.getElementById('cityResult2');
+    const conclusionMessage = document.getElementById('conclusionMessage');
+
+    // Stores the selected, validated city data
+    const selectedCities = { single: null, 1: null, 2: null };
+
     let autocompleteTimeout;
 
-    // Function to fetch and display autocomplete suggestions
-    const fetchSuggestions = async (query) => {
+    // --- Helper Function for AQI color coding ---
+    function getAqiColor(aqi) {
+        if (aqi <= 50) return 'color: green;';
+        if (aqi <= 100) return 'color: gold;';
+        if (aqi <= 150) return 'color: orange;';
+        if (aqi <= 200) return 'color: red;';
+        if (aqi <= 300) return 'color: purple;';
+        return 'color: maroon;';
+    }
+
+    // --- 1. Autocomplete Logic (Generalized) ---
+    const fetchSuggestions = async (inputElement, listElement) => {
+        const query = inputElement.value;
         if (query.length < 3) {
-            suggestionsList.innerHTML = '';
+            listElement.innerHTML = '';
             return;
         }
 
         try {
-            // Calls the Flask endpoint /api/autocomplete
             const response = await fetch(`/api/autocomplete?query=${encodeURIComponent(query)}`);
             const data = await response.json();
 
-            suggestionsList.innerHTML = '';
+            listElement.innerHTML = '';
 
             if (data.suggestions && data.suggestions.length > 0) {
+                const cityIndex = inputElement.dataset.cityIndex;
                 data.suggestions.forEach(city => {
                     const li = document.createElement('li');
                     li.className = 'suggestion-item';
                     li.innerHTML = `<strong>${city.city}</strong>, ${city.state}, ${city.country}`;
 
-                    li.addEventListener('click', () => selectCity(city));
-                    suggestionsList.appendChild(li);
+                    li.addEventListener('click', () => handleCitySelection(city, cityIndex));
+                    listElement.appendChild(li);
                 });
             } else {
-                suggestionsList.innerHTML = '<li class="suggestion-item" style="cursor: default;">No matches found.</li>';
+                listElement.innerHTML = '<li class="suggestion-item" style="cursor: default;">No matches found.</li>';
             }
 
         } catch (error) {
-            console.error('Error fetching autocomplete data:', error);
-            suggestionsList.innerHTML = '<li class="suggestion-item" style="color: red; cursor: default;">Error fetching data.</li>';
+            listElement.innerHTML = '<li class="suggestion-item" style="color: red; cursor: default;">Error fetching data.</li>';
         }
     };
 
-    // Event listener for input changes (with debounce)
-    cityInput.addEventListener('input', (e) => {
+
+    // --- 2. Single City API Data Fetcher (MODIFIED) ---
+    const fetchSingleCityDataAndDisplay = async () => {
+        const city = selectedCities.single;
+
+        if (!city) {
+            singleCityResultOutput.innerHTML = '<p style="color: red;">Please select a valid city from the autocomplete list first.</p>';
+            return;
+        }
+
+        singleCityResultOutput.innerHTML = `<p>Fetching data via Flask API for <strong>${city.city}</strong>...</p>`;
+
+        try {
+            const url = `/api/city_resume?city=${encodeURIComponent(city.city)}&state=${encodeURIComponent(city.state)}&country=${encodeURIComponent(city.country)}`;
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.success) {
+                let html = `
+                        <h3>AQI Summary for ${data.city} (${data.state}, ${data.country})</h3>
+                        <p><strong>Main Pollutant:</strong> ${data.main_pollutant || 'N/A'}</p>
+                        <hr>
+                        <h4>Daily AQI Values</h4>
+                    `;
+
+                // 🌟 MODIFICATION: Check if length is > 1
+                if (data.daily_aqi_summary && data.daily_aqi_summary.length > 1) {
+                    data.daily_aqi_summary.forEach(day => {
+                        html += `
+                                <div class="aqi-line">
+                                    <span>${day.label}</span>
+                                    <span class="aqi-value" style="${getAqiColor(day.aqi)}">${day.aqi || 'N/A'}</span>
+                                </div>
+                            `;
+                    });
+                    // 🌟 MODIFICATION: Handle the "Current Only" case
+                } else if (data.daily_aqi_summary && data.daily_aqi_summary.length === 1) {
+                    html += `
+                            <div class="aqi-line">
+                                <span>${data.daily_aqi_summary[0].label}</span>
+                                <span class="aqi-value" style="${getAqiColor(data.daily_aqi_summary[0].aqi)}">${data.daily_aqi_summary[0].aqi || 'N/A'}</span>
+                            </div>
+                         `;
+                    html += '<p style="font-style: italic; margin-top: 10px;">Note: Historical and forecast data is not available (this may require a paid API plan).</p>';
+                } else {
+                    html += '<p>No daily AQI data could be loaded.</p>';
+                }
+
+                // Append current weather info
+                html += `
+                        <hr>
+                        <h4>Current Weather</h4>
+                        <p><strong>Temperature:</strong> ${data.weather.tp}°C</p>
+                        <p><strong>Humidity:</strong> ${data.weather.hu}%</p>
+                        <p><strong>Wind Speed:</strong> ${data.weather.ws} m/s</p>
+                    `;
+
+                singleCityResultOutput.innerHTML = html;
+
+            } else {
+                singleCityResultOutput.innerHTML = `<p style="color: red;">Error: ${data.error || 'Could not fetch air quality data from Flask API.'}</p>`;
+            }
+
+        } catch (error) {
+            singleCityResultOutput.innerHTML = `<p style_="color: red;">An error occurred while calling the Flask API.</p>`;
+            console.error('Error fetching city resume from Flask API:', error);
+        }
+    };
+
+
+    // --- 3. Handler for all city selections ---
+    const handleCitySelection = (city, cityIndex) => {
+        // Update input and clear suggestions for all cases
+        cityInputs[cityIndex].value = `${city.city}, ${city.state}`;
+        suggestionLists[cityIndex].innerHTML = '';
+
+        // Store data for subsequent action (Show Data or Compare)
+        selectedCities[cityIndex] = city;
+
+        // For the Single City input, clear the previous result when a new city is selected
+        if (cityIndex === 'single') {
+            singleCityResultOutput.innerHTML = 'City selected. Click "Show Single City Data" to view.';
+        }
+    };
+
+
+    // --- 4. Comparison Logic ---
+    const compareCities = async () => {
+        const city1 = selectedCities[1];
+        const city2 = selectedCities[2];
+
+        // 1. Validation
+        if (!city1 || !city2) {
+            alert("Please select and validate both cities for comparison using the autocomplete suggestions.");
+            return;
+        }
+
+        comparisonContainer.style.display = 'block';
+        cityResult1.innerHTML = 'Fetching data...';
+        cityResult2.innerHTML = 'Fetching data...';
+        conclusionMessage.innerHTML = 'Processing comparison...';
+
+        // 2. Build Query Parameters
+        const params = new URLSearchParams({
+            c1_city: city1.city,
+            c1_state: city1.state,
+            c1_country: city1.country,
+            c2_city: city2.city,
+            c2_state: city2.state,
+            c2_country: city2.country
+        });
+
+        try {
+            // 3. Call Flask API Comparison Endpoint
+            const response = await fetch(`/api/compare_cities?${params.toString()}`);
+            const data = await response.json();
+
+            // 4. Render Results
+            renderCityResult(data.city1, cityResult1);
+            renderCityResult(data.city2, cityResult2);
+
+            if (data.city1.success && data.city2.success) {
+                conclusionMessage.innerHTML = data.conclusion;
+            } else {
+                conclusionMessage.innerHTML = 'Could not perform comparison due to missing data for one or both cities.';
+            }
+
+        } catch (error) {
+            console.error('Error during comparison:', error);
+            conclusionMessage.innerHTML = 'An unexpected error occurred during the comparison process.';
+            cityResult1.innerHTML = 'Error.';
+            cityResult2.innerHTML = 'Error.';
+        }
+    };
+
+    // --- 5. Result Renderer (MODIFIED) ---
+    const renderCityResult = (data, element) => {
+        if (data.success) {
+            let html = `
+                    <h3>${data.city} (${data.state})</h3>
+                    <p><strong>Country:</strong> ${data.country}</p>
+                    <p><strong>Main Pollutant:</strong> ${data.main_pollutant || 'N/A'}</p>
+                    <hr>
+                    <h4>Daily AQI Values</h4>
+                `;
+
+            // 🌟 MODIFICATION: Check if length is > 1
+            if (data.daily_aqi_summary && data.daily_aqi_summary.length > 1) {
+                data.daily_aqi_summary.forEach(day => {
+                    html += `
+                            <div class="aqi-line">
+                                <span>${day.label}</span>
+                                <span class="aqi-value" style="${getAqiColor(day.aqi)}">${day.aqi || 'N/A'}</span>
+                            </div>
+                        `;
+                });
+                // 🌟 MODIFICATION: Handle the "Current Only" case
+            } else if (data.daily_aqi_summary && data.daily_aqi_summary.length === 1) {
+                html += `
+                        <div class="aqi-line">
+                            <span>${data.daily_aqi_summary[0].label}</span>
+                            <span class="aqi-value" style="${getAqiColor(data.daily_aqi_summary[0].aqi)}">${data.daily_aqi_summary[0].aqi || 'N/A'}</span>
+                        </div>
+                    `;
+                html += '<p style="font-style: italic; margin-top: 10px;">Note: Historical/forecast data not available.</p>';
+            } else {
+                html += '<p>No daily AQI data could be loaded.</p>';
+            }
+
+            html += `
+                    <hr>
+                    <h4>Current Weather</h4>
+                    <p><strong>Temperature:</strong> ${data.weather.tp}°C</p>
+                    <p><strong>Humidity:</strong> ${data.weather.hu}%</p>
+                    <p><strong>Wind Speed:</strong> ${data.weather.ws} m/s</p>
+                `;
+
+            element.innerHTML = html;
+
+        } else {
+            element.innerHTML = `
+                    <h3>Data Not Available</h3>
+                    <p style="color: red;">${data.error}</p>
+                `;
+        }
+    };
+
+    // --- 6. Event Listeners ---
+
+    // Single City Input
+    cityInputs.single.addEventListener('input', () => {
         clearTimeout(autocompleteTimeout);
+        selectedCities.single = null;
         autocompleteTimeout = setTimeout(() => {
-            fetchSuggestions(e.target.value);
-        }, 300); // Wait 300ms after user stops typing
+            fetchSuggestions(cityInputs.single, suggestionLists.single);
+        }, 300);
+    });
+    showDataButton.addEventListener('click', fetchSingleCityDataAndDisplay);
+
+    // Comparison Input 1
+    cityInputs[1].addEventListener('input', () => {
+        clearTimeout(autocompleteTimeout);
+        selectedCities[1] = null;
+        autocompleteTimeout = setTimeout(() => {
+            fetchSuggestions(cityInputs[1], suggestionLists[1]);
+        }, 300);
     });
 
-    // ⭐ NEW POLLING LOGIC ⭐
-    const selectCity = (city) => {
-        cityInput.value = `${city.city}, ${city.state}`;
-        suggestionsList.innerHTML = ''; // Clear suggestions
+    // Comparison Input 2
+    cityInputs[2].addEventListener('input', () => {
+        clearTimeout(autocompleteTimeout);
+        selectedCities[2] = null;
+        autocompleteTimeout = setTimeout(() => {
+            fetchSuggestions(cityInputs[2], suggestionLists[2]);
+        }, 300);
+    });
 
-        cityDataOutput.innerHTML = `<p>Loading widget for <strong>${city.city}, ${city.state}</strong>...</p>`;
-
-        let retryCount = 0;
-        const maxRetries = 20; // Check every 100ms for 2 seconds (20 retries)
-
-        const checkWidgetReady = () => {
-            // Check if the global function is defined
-            if (window.loadAirVisualWidget) {
-                window.loadAirVisualWidget({
-                    city: city.city,
-                    state: city.state,
-                    country: city.country,
-                    key: WIDGET_KEY
-                });
-                cityDataOutput.innerHTML = `<p>Widget successfully loaded for <strong>${city.city}, ${city.state}</strong>.</p>`;
-            } else if (retryCount < maxRetries) {
-                // Not ready yet, retry after a short delay
-                retryCount++;
-                setTimeout(checkWidgetReady, 100);
-            } else {
-                // Failed after max retries
-                cityDataOutput.innerHTML = `<p style="color: red;">Widget load failed. External script might be blocked or down.</p>`;
-                console.error('Failed to load AirVisual widget function after multiple retries.');
-            }
-        };
-
-        checkWidgetReady();
-    }
+    compareButton.addEventListener('click', compareCities);
 </script>
 </body>
 </html>
