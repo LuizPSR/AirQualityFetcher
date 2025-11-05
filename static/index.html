@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Air Quality City Data (Brazil)</title>
+    <title>Dados de Qualidade do Ar por Cidade (Brasil)</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -119,52 +119,52 @@
 <body>
 
 <div class="container" id="widgetContainer">
-    <h2>🇧🇷 Real Time View (Nearest Station)</h2>
-    <p>This widget automatically displays the real-time air quality from the station nearest to your current location (requires geolocation permission).</p>
+    <h2>Visualização em Tempo Real</h2>
+    <p>Este widget exibe automaticamente a qualidade do ar em tempo real da estação mais próxima à sua localização atual.</p>
 
-    <div name="airvisual_widget" key="690a2f1069689d1b6f18f66a" style="min-height: 300px;"></div>
+    <div name="airvisual_widget" key="690a2f1069689d1b6f18f66a" style="min-height: 100px;"></div>
 </div>
 
 
 <div class="container">
-    <h2>🔍 Select Single City</h2>
-    <p>Type a city name to fetch its current, historical, and forecast air quality data.</p>
+    <h2>Selecionar Cidade Individual</h2>
+    <p>Digite o nome de uma cidade para buscar seus dados atuais, históricos e de previsão da qualidade do ar.</p>
 
     <div class="input-wrapper">
-        <input type="text" id="cityInputSingle" data-city-index="single" placeholder="Enter a City Name (e.g., Rio de Janeiro)">
+        <input type="text" id="cityInputSingle" data-city-index="single" placeholder="Digite o Nome de uma Cidade (ex: Rio de Janeiro)">
         <ul id="suggestionsListSingle" class="suggestions-box"></ul>
     </div>
 
-    <button id="showDataButton" style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">Show Single City Data</button>
+    <button id="showDataButton" style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">Mostrar Dados da Cidade</button>
 </div>
 
-<div class="container" id="singleCityResultContainer">
-    <h2>Single City Result</h2>
-    <div id="singleCityResultOutput">Select a city and click "Show Single City Data" above.</div>
+<div class="container" id="singleCityResultContainer" style="display: none;">
+    <h2>Resultado da Cidade Individual</h2>
+    <div id="singleCityResultOutput">Selecione uma cidade e clique em "Mostrar Dados da Cidade" acima.</div>
 </div>
 
 
 <div class="container">
-    <h2>⚖️ City Comparison</h2>
-    <p>Select two cities below, then click "Compare Cities".</p>
+    <h2>Comparação de Cidades</h2>
+    <p>Selecione duas cidades abaixo e clique em "Comparar Cidades".</p>
 
     <div class="input-group-container">
         <div class="input-wrapper">
-            <input type="text" id="cityInput1" data-city-index="1" placeholder="City A">
+            <input type="text" id="cityInput1" data-city-index="1" placeholder="Cidade A">
             <ul id="suggestionsList1" class="suggestions-box"></ul>
         </div>
 
         <div class="input-wrapper">
-            <input type="text" id="cityInput2" data-city-index="2" placeholder="City B">
+            <input type="text" id="cityInput2" data-city-index="2" placeholder="Cidade B">
             <ul id="suggestionsList2" class="suggestions-box"></ul>
         </div>
     </div>
 
-    <button id="compareButton" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Compare Cities</button>
+    <button id="compareButton" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Comparar Cidades</button>
 </div>
 
 <div class="container" id="comparisonContainer" style="display: none;">
-    <h2>Comparison Results</h2>
+    <h2>Resultados da Comparação</h2>
     <div id="comparisonOutput" class="comparison-output">
         <div class="city-data-column" id="cityResult1"></div>
         <div class="city-data-column" id="cityResult2"></div>
@@ -176,7 +176,7 @@
 <script type="text/javascript" src="https://widget.iqair.com/script/widget_v3.0.js"></script>
 
 <script>
-    // --- Global State and Constants ---
+    // --- Global State and Constants (Mantido em Inglês para o Código) ---
     const cityInputs = {
         single: document.getElementById('cityInputSingle'),
         1: document.getElementById('cityInput1'),
@@ -191,6 +191,8 @@
     const compareButton = document.getElementById('compareButton');
     const singleCityResultOutput = document.getElementById('singleCityResultOutput');
     const comparisonContainer = document.getElementById('comparisonContainer');
+    // Referência ao novo container
+    const singleCityResultContainer = document.getElementById('singleCityResultContainer');
     const cityResult1 = document.getElementById('cityResult1');
     const cityResult2 = document.getElementById('cityResult2');
     const conclusionMessage = document.getElementById('conclusionMessage');
@@ -235,11 +237,13 @@
                     listElement.appendChild(li);
                 });
             } else {
-                listElement.innerHTML = '<li class="suggestion-item" style="cursor: default;">No matches found.</li>';
+                // TRADUÇÃO: No matches found. -> Nenhum resultado encontrado.
+                listElement.innerHTML = '<li class="suggestion-item" style="cursor: default;">Nenhum resultado encontrado.</li>';
             }
 
         } catch (error) {
-            listElement.innerHTML = '<li class="suggestion-item" style="color: red; cursor: default;">Error fetching data.</li>';
+            // TRADUÇÃO: Error fetching data. -> Erro ao buscar dados.
+            listElement.innerHTML = '<li class="suggestion-item" style="color: red; cursor: default;">Erro ao buscar dados.</li>';
         }
     };
 
@@ -248,12 +252,17 @@
     const fetchSingleCityDataAndDisplay = async () => {
         const city = selectedCities.single;
 
+        // ALTERAÇÃO 2: Tornar o container visível ao clicar no botão
+        singleCityResultContainer.style.display = 'block';
+
         if (!city) {
-            singleCityResultOutput.innerHTML = '<p style="color: red;">Please select a valid city from the autocomplete list first.</p>';
+            // TRADUÇÃO: Please select a valid city from the autocomplete list first. -> Por favor, selecione uma cidade válida na lista de preenchimento automático primeiro.
+            singleCityResultOutput.innerHTML = '<p style="color: red;">Por favor, selecione uma cidade válida na lista de preenchimento automático primeiro.</p>';
             return;
         }
 
-        singleCityResultOutput.innerHTML = `<p>Fetching data via Flask API for <strong>${city.city}</strong>...</p>`;
+        // TRADUÇÃO: Fetching data via Flask API for... -> Buscando dados via API Flask para...
+        singleCityResultOutput.innerHTML = `<p>Buscando dados via API Flask para <strong>${city.city}</strong>...</p>`;
 
         try {
             const url = `/api/city_resume?city=${encodeURIComponent(city.city)}&state=${encodeURIComponent(city.state)}&country=${encodeURIComponent(city.country)}`;
@@ -261,11 +270,14 @@
             const data = await response.json();
 
             if (data.success) {
+                // TRADUÇÃO: AQI Summary for... -> Resumo do IQA para...
+                // TRADUÇÃO: Main Pollutant: -> Poluente Principal:
+                // TRADUÇÃO: Daily AQI Values -> Valores Diários de IQA
                 let html = `
-                        <h3>AQI Summary for ${data.city} (${data.state}, ${data.country})</h3>
-                        <p><strong>Main Pollutant:</strong> ${data.main_pollutant || 'N/A'}</p>
+                        <h3>Resumo do IQA para ${data.city} (${data.state}, ${data.country})</h3>
+                        <p><strong>Poluente Principal:</strong> ${data.main_pollutant || 'N/A'}</p>
                         <hr>
-                        <h4>Daily AQI Values</h4>
+                        <h4>Valores Diários de IQA</h4>
                     `;
 
                 // 🌟 MODIFICATION: Check if length is > 1
@@ -286,28 +298,36 @@
                                 <span class="aqi-value" style="${getAqiColor(data.daily_aqi_summary[0].aqi)}">${data.daily_aqi_summary[0].aqi || 'N/A'}</span>
                             </div>
                          `;
-                    html += '<p style="font-style: italic; margin-top: 10px;">Note: Historical and forecast data is not available (this may require a paid API plan).</p>';
+                    // TRADUÇÃO: Note: Historical and forecast data is not available (this may require a paid API plan). -> Nota: Dados históricos e de previsão não estão disponíveis (isso pode exigir um plano de API pago).
+                    html += '<p style="font-style: italic; margin-top: 10px;">Nota: Dados históricos e de previsão não estão disponíveis (isso pode exigir um plano de API pago).</p>';
                 } else {
-                    html += '<p>No daily AQI data could be loaded.</p>';
+                    // TRADUÇÃO: No daily AQI data could be loaded. -> Nenhum dado diário de IQA pôde ser carregado.
+                    html += '<p>Nenhum dado diário de IQA pôde ser carregado.</p>';
                 }
 
                 // Append current weather info
+                // TRADUÇÃO: Current Weather -> Clima Atual
+                // TRADUÇÃO: Temperature: -> Temperatura:
+                // TRADUÇÃO: Humidity: -> Umidade:
+                // TRADUÇÃO: Wind Speed: -> Velocidade do Vento:
                 html += `
                         <hr>
-                        <h4>Current Weather</h4>
-                        <p><strong>Temperature:</strong> ${data.weather.tp}°C</p>
-                        <p><strong>Humidity:</strong> ${data.weather.hu}%</p>
-                        <p><strong>Wind Speed:</strong> ${data.weather.ws} m/s</p>
+                        <h4>Clima Atual</h4>
+                        <p><strong>Temperatura:</strong> ${data.weather.tp}°C</p>
+                        <p><strong>Umidade:</strong> ${data.weather.hu}%</p>
+                        <p><strong>Velocidade do Vento:</strong> ${data.weather.ws} m/s</p>
                     `;
 
                 singleCityResultOutput.innerHTML = html;
 
             } else {
-                singleCityResultOutput.innerHTML = `<p style="color: red;">Error: ${data.error || 'Could not fetch air quality data from Flask API.'}</p>`;
+                // TRADUÇÃO: Error: Could not fetch air quality data from Flask API. -> Erro: Não foi possível buscar dados de qualidade do ar da API Flask.
+                singleCityResultOutput.innerHTML = `<p style="color: red;">Erro: ${data.error || 'Não foi possível buscar dados de qualidade do ar da API Flask.'}</p>`;
             }
 
         } catch (error) {
-            singleCityResultOutput.innerHTML = `<p style_="color: red;">An error occurred while calling the Flask API.</p>`;
+            // TRADUÇÃO: An error occurred while calling the Flask API. -> Ocorreu um erro ao chamar a API Flask.
+            singleCityResultOutput.innerHTML = `<p style="color: red;">Ocorreu um erro ao chamar a API Flask.</p>`;
             console.error('Error fetching city resume from Flask API:', error);
         }
     };
@@ -324,7 +344,11 @@
 
         // For the Single City input, clear the previous result when a new city is selected
         if (cityIndex === 'single') {
-            singleCityResultOutput.innerHTML = 'City selected. Click "Show Single City Data" to view.';
+            // TRADUÇÃO: City selected. Click "Show Single City Data" to view. -> Cidade selecionada. Clique em "Mostrar Dados da Cidade" para visualizar.
+            singleCityResultOutput.innerHTML = 'Cidade selecionada. Clique em "Mostrar Dados da Cidade" para visualizar.';
+
+            // Opcional: Ocultar novamente o resultado ao selecionar uma nova cidade, forçando o clique no botão
+            // singleCityResultContainer.style.display = 'none';
         }
     };
 
@@ -336,14 +360,17 @@
 
         // 1. Validation
         if (!city1 || !city2) {
-            alert("Please select and validate both cities for comparison using the autocomplete suggestions.");
+            // TRADUÇÃO: Please select and validate both cities for comparison using the autocomplete suggestions. -> Por favor, selecione e valide ambas as cidades para comparação usando as sugestões de preenchimento automático.
+            alert("Por favor, selecione e valide ambas as cidades para comparação usando as sugestões de preenchimento automático.");
             return;
         }
 
         comparisonContainer.style.display = 'block';
-        cityResult1.innerHTML = 'Fetching data...';
-        cityResult2.innerHTML = 'Fetching data...';
-        conclusionMessage.innerHTML = 'Processing comparison...';
+        // TRADUÇÃO: Fetching data... -> Buscando dados...
+        cityResult1.innerHTML = 'Buscando dados...';
+        cityResult2.innerHTML = 'Buscando dados...';
+        // TRADUÇÃO: Processing comparison... -> Processando comparação...
+        conclusionMessage.innerHTML = 'Processando comparação...';
 
         // 2. Build Query Parameters
         const params = new URLSearchParams({
@@ -367,26 +394,32 @@
             if (data.city1.success && data.city2.success) {
                 conclusionMessage.innerHTML = data.conclusion;
             } else {
-                conclusionMessage.innerHTML = 'Could not perform comparison due to missing data for one or both cities.';
+                // TRADUÇÃO: Could not perform comparison due to missing data for one or both cities. -> Não foi possível realizar a comparação devido à falta de dados para uma ou ambas as cidades.
+                conclusionMessage.innerHTML = 'Não foi possível realizar a comparação devido à falta de dados para uma ou ambas as cidades.';
             }
 
         } catch (error) {
             console.error('Error during comparison:', error);
-            conclusionMessage.innerHTML = 'An unexpected error occurred during the comparison process.';
-            cityResult1.innerHTML = 'Error.';
-            cityResult2.innerHTML = 'Error.';
+            // TRADUÇÃO: An unexpected error occurred during the comparison process. -> Ocorreu um erro inesperado durante o processo de comparação.
+            conclusionMessage.innerHTML = 'Ocorreu um erro inesperado durante o processo de comparação.';
+            // TRADUÇÃO: Error. -> Erro.
+            cityResult1.innerHTML = 'Erro.';
+            cityResult2.innerHTML = 'Erro.';
         }
     };
 
     // --- 5. Result Renderer (MODIFIED) ---
     const renderCityResult = (data, element) => {
         if (data.success) {
+            // TRADUÇÃO: Country: -> País:
+            // TRADUÇÃO: Main Pollutant: -> Poluente Principal:
+            // TRADUÇÃO: Daily AQI Values -> Valores Diários de IQA
             let html = `
                     <h3>${data.city} (${data.state})</h3>
-                    <p><strong>Country:</strong> ${data.country}</p>
-                    <p><strong>Main Pollutant:</strong> ${data.main_pollutant || 'N/A'}</p>
+                    <p><strong>País:</strong> ${data.country}</p>
+                    <p><strong>Poluente Principal:</strong> ${data.main_pollutant || 'N/A'}</p>
                     <hr>
-                    <h4>Daily AQI Values</h4>
+                    <h4>Valores Diários de IQA</h4>
                 `;
 
             // 🌟 MODIFICATION: Check if length is > 1
@@ -407,30 +440,37 @@
                             <span class="aqi-value" style="${getAqiColor(data.daily_aqi_summary[0].aqi)}">${data.daily_aqi_summary[0].aqi || 'N/A'}</span>
                         </div>
                     `;
-                html += '<p style="font-style: italic; margin-top: 10px;">Note: Historical/forecast data not available.</p>';
+                // TRADUÇÃO: Note: Historical/forecast data not available. -> Nota: Dados históricos/previsão não disponíveis.
+                html += '<p style="font-style: italic; margin-top: 10px;">Nota: Dados históricos/previsão não disponíveis.</p>';
             } else {
-                html += '<p>No daily AQI data could be loaded.</p>';
+                // TRADUÇÃO: No daily AQI data could be loaded. -> Nenhum dado diário de IQA pôde ser carregado.
+                html += '<p>Nenhum dado diário de IQA pôde ser carregado.</p>';
             }
 
+            // TRADUÇÃO: Current Weather -> Clima Atual
+            // TRADUÇÃO: Temperature: -> Temperatura:
+            // TRADUÇÃO: Humidity: -> Umidade:
+            // TRADUÇÃO: Wind Speed: -> Velocidade do Vento:
             html += `
                     <hr>
-                    <h4>Current Weather</h4>
-                    <p><strong>Temperature:</strong> ${data.weather.tp}°C</p>
-                    <p><strong>Humidity:</strong> ${data.weather.hu}%</p>
-                    <p><strong>Wind Speed:</strong> ${data.weather.ws} m/s</p>
+                    <h4>Clima Atual</h4>
+                    <p><strong>Temperatura:</strong> ${data.weather.tp}°C</p>
+                    <p><strong>Umidade:</strong> ${data.weather.hu}%</p>
+                    <p><strong>Velocidade do Vento:</strong> ${data.weather.ws} m/s</p>
                 `;
 
             element.innerHTML = html;
 
         } else {
+            // TRADUÇÃO: Data Not Available -> Dados Não Disponíveis
             element.innerHTML = `
-                    <h3>Data Not Available</h3>
+                    <h3>Dados Não Disponíveis</h3>
                     <p style="color: red;">${data.error}</p>
                 `;
         }
     };
 
-    // --- 6. Event Listeners ---
+    // --- 6. Event Listeners (Mantido em Inglês para o Código) ---
 
     // Single City Input
     cityInputs.single.addEventListener('input', () => {
